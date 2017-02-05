@@ -27,18 +27,6 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Lorem</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>amet</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Integer</td>
-                </tr>
               </tbody>
             </table>
               </div>
@@ -48,3 +36,18 @@
       </div>
     </div>
 <?php require('partials/footer.php'); ?>
+<script>
+  $( document ).ready(function() {
+    $.ajax({
+      url: "https://pizzaserver.herokuapp.com/toppings/",
+      context: document.body
+    }).done(function(data) {
+      $.each(data, function( index, topping ) {
+        var row = $('<tr>');
+        row.append('<td>'+topping.id+'</td>');
+        row.append('<td>'+topping.name+'</td>');
+        $('tbody').append(row);
+      });
+    });
+  });
+</script>

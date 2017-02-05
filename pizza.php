@@ -60,3 +60,21 @@
       </div>
     </div>
 <?php require('partials/footer.php'); ?>
+<script>
+  $( document ).ready(function() {
+    $.ajax({
+      url: "https://pizzaserver.herokuapp.com/pizzas/",
+      context: document.body
+    }).done(function(data) {
+      $.each(data, function( index, topping ) {
+        var row = $('<tr>');
+        row.append('<td><button>Edit</button></td>');
+        row.append('<td>'+topping.id+'</td>');
+        row.append('<td>'+topping.name+'</td>');
+        row.append('<td>'+topping.description+'</td>');
+        $('tbody').append(row);
+      });
+    });
+  });
+  alert = function() {};
+</script>
