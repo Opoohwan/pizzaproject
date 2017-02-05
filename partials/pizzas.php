@@ -5,7 +5,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">Add Pizza</div>
         <div class="panel-body">
-            <form class="form-inline">
+            <form class="form-inline" id="PizzaForm">
               <div class="form-group">
                 <label for="exampleInputName2">Name</label>
                 <input type="text" class="form-control" id="name" placeholder="Name">
@@ -43,6 +43,11 @@
 <?php require('partials/footer.php'); ?>
 <script>
   $( document ).ready(function() {
+    getPizzas();
+  });
+
+  function getPizzas() {
+    $('#tbody').html('');
     $.ajax({
       url: "https://pizzaserver.herokuapp.com/pizzas/",
       context: document.body
@@ -56,6 +61,19 @@
         $('tbody').append(row);
       });
     });
+  }
+
+  $('#PizzaForm').submit(function(e) {
+    var pizzaname = $('#name').val();
+    var pizzadescription = $('#description').val();
+    $.ajax({
+      method: "POST",
+      url: "https://pizzaserver.herokuapp.com/pizzas/",
+      data: {pizza: {name: pizzaname, description: pizzadescription}}
+    }).done(function( ) {
+      getPizzas();
+    });
+    e.preventDefault();
   });
   alert = function() {};
 </script>

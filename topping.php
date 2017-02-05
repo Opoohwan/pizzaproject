@@ -6,7 +6,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">Add Topping</div>
             <div class="panel-body">
-                <form class="form-inline">
+                <form class="form-inline" id="ToppingForm">
                   <div class="form-group">
                     <label for="exampleInputName2">Name</label>
                     <input type="text" class="form-control" id="name" placeholder="Name">
@@ -38,6 +38,11 @@
 <?php require('partials/footer.php'); ?>
 <script>
   $( document ).ready(function() {
+    getToppings();
+  });
+
+  function getToppings() {
+    $('tbody').html('');
     $.ajax({
       url: "https://pizzaserver.herokuapp.com/toppings/",
       context: document.body
@@ -49,5 +54,18 @@
         $('tbody').append(row);
       });
     });
+  }
+
+  $('#ToppingForm').submit(function(e) {
+    var topping = $('#name').val();
+    $.ajax({
+      method: "POST",
+      url: "https://pizzaserver.herokuapp.com/toppings/",
+      data: {topping: {name: topping}}
+    }).done(function( ) {
+      getToppings();
+      $('#name').val('');
+    });
+    e.preventDefault();
   });
 </script>
