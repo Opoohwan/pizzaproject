@@ -2,7 +2,10 @@
     <div class="container-fluid">
       <div class="row">
         <div class="main">
+        <div class="placeholder clearfix">
+          <img src="images/pepperoni.jpg" width="40" height="40" class="img-responsive" alt="Generic placeholder thumbnail" style="float:left; margin-right: 10px;">
           <h1 class="page-header">Toppings</h1>
+        </div>
           <div class="panel panel-default">
             <div class="panel-heading">Add Topping</div>
             <div class="panel-body">
@@ -16,7 +19,14 @@
             </div>
           </div>
           <div class="panel panel-default">
-            <div class="panel-heading">Manage Toppings</div>
+            <div class="panel-heading clearfix">
+              Manage Toppings
+              <form id="exportpizza" action="download.php" method="post" style="float:right;">
+                <input type="hidden" name="name" id="exportname" value="topping" />
+                <input type="hidden" name="data" id="exportdata" value="" />
+                  <button type="submit" class="btn btn-default">Export</button>
+              </form>
+            </div>
             <div class="panel-body">
               <div class="table-responsive">
                 <table class="table table-striped">
@@ -37,6 +47,7 @@
     </div>
 <?php require('partials/footer.php'); ?>
 <script>
+  var topping;
   $( document ).ready(function() {
     getToppings();
   });
@@ -47,10 +58,12 @@
       url: "https://pizzaserver.herokuapp.com/toppings/",
       context: document.body
     }).done(function(data) {
+      topping = data;
+      $('#exportdata').val(JSON.stringify(topping));
       $.each(data, function( index, topping ) {
         var row = $('<tr>');
-        row.append('<td>'+topping.id+'</td>');
-        row.append('<td>'+topping.name+'</td>');
+        row.append("<td>"+$('<span>').text(topping.id).html()+'</td>');
+        row.append("<td>"+$('<span>').text(topping.name).html()+'</td>');
         $('tbody').append(row);
       });
     });
