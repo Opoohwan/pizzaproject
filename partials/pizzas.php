@@ -86,6 +86,8 @@
       data: {pizza: {name: pizzaname, description: pizzadescription}}
     }).done(function( ) {
       getPizzas();
+      var pizzaname = $('#name').val("");
+      var pizzadescription = $('#description').val("");
     });
     e.preventDefault();
   });
